@@ -1,0 +1,380 @@
+---
+import MusicPlayer from "../components/MusicPlayer.astro";
+import "../styles/global.css";
+// ✏️ Sửa thông tin thiệp ở đây
+const info = {
+  name: "Phúc Duyên",
+  date: "2026-11-07T08:00:00+07:00",
+  venue: "FPT University",
+  address: "Khu Công nghệ cao, TP. Hồ Chí Minh",
+  map: "https://maps.google.com/?q=FPT+University+Ho+Chi+Minh+City",
+};
+// ✏️ Thay bằng ảnh thật: bỏ file vào public/photos/ rồi dùng "/photos/1.jpg"
+
+const avatar = {
+  src: "../../public/photos/IMG_8069.jpg",
+};
+
+const photos = [
+  {
+    src: "../../public/photos/Avatar.png",
+    alt: "Phúc Duyên ngày tốt nghiệp",
+    caption: "Ngày mình bắt đầu",
+  },
+  {
+    src: "../../public/photos/R1N_1231.jpg",
+    alt: "Bạn bè cùng học tập",
+    caption: "Những ngày không quên",
+  },
+  {
+    src: "../../public/photos/IMG_8012.jpg",
+    alt: "Nhóm bạn lưu giữ kỷ niệm",
+    caption: "Có nhau thanh xuân",
+  },
+];
+---
+
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#5a0f1e" />
+    <meta
+      name="description"
+      content="Thiệp mời tốt nghiệp của Phúc Duyên — 07/11/2026, FPT University TP.HCM."
+    />
+    <title>Graduation Day — Phúc Duyên</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <audio id="bg-music" loop preload="none">
+      <source src="/audio/graduation.mp3" type="audio/mpeg" />
+    </audio>
+
+    <div class="main-bg" aria-hidden="true">
+      <div class="main-bg-img"></div>
+    </div>
+    <div class="petals" aria-hidden="true"></div>
+
+    <div class="intro" id="intro">
+      <div class="intro-bg"></div>
+      <div class="sparkles" id="spkIntro"></div>
+      <div class="intro-in">
+        <p class="eyebrow">Thiệp mời tốt nghiệp</p>
+        <button class="seal" id="open" aria-label="Mở thiệp tốt nghiệp"
+          ><img src="/images/seal-white.png" alt="" /></button
+        >
+        <p class="hint">Chạm vào con dấu để mở thiệp</p>
+      </div>
+    </div>
+
+    <main class="page">
+      <section class="hero">
+        <p class="eyebrow rise">You are invited to</p>
+        <h1 class="rise">Graduation Day</h1>
+        <p class="name rise">{info.name}</p>
+
+        <div class="oval rise">
+          <img
+            src={avatar.src}
+            alt="Graduation portrait"
+            loading="eager"
+            decoding="async"
+          />
+
+          <img
+            class="bloom o1"
+            src="/images/lily-bloom.png"
+            alt=""
+            decoding="async"
+          />
+
+          <img
+            class="bloom o2"
+            src="/images/lily-bloom.png"
+            alt=""
+            decoding="async"
+          />
+        </div>
+
+        <p class="hdate rise">07 · 11 · 2026</p>
+      </section>
+
+      <section class="arch reveal" id="details">
+        <img class="bloom mini" src="/images/lily-bloom.png" alt="" />
+        <div class="dt">
+          <span>THỨ BẢY</span><strong>07</strong><span>THÁNG 11</span>
+        </div>
+        <p class="yr">2026</p>
+        <p class="at">— LÚC —</p>
+        <p class="time">16 : 30</p>
+        <h3 class="venue">{info.venue}</h3>
+        <p class="addr">{info.address}</p>
+        <a class="pill" href={info.map} target="_blank" rel="noreferrer"
+          >Xem bản đồ ↗</a
+        >
+        <p class="lead">
+          Một hành trình mới của cuộc đời mình sắp bắt đầu và hơn tất cả những
+          món quà trên thế giới này sự hiện diện của bạn là điều quý giá nhất mà
+          mình mong được đón nhận vào ngày hôm đấy.
+        </p>
+      </section>
+
+      <section class="sec reveal">
+        <p class="eyebrow">Đếm ngược</p><h2>Ngày hẹn gặp nhau</h2>
+      </section>
+      <div class="cd reveal" id="cd" data-date={info.date}>
+        <div><strong id="days">00</strong><span>NGÀY</span></div>
+        <div><strong id="hours">00</strong><span>GIỜ</span></div>
+        <div><strong id="minutes">00</strong><span>PHÚT</span></div>
+        <div><strong id="seconds">00</strong><span>GIÂY</span></div>
+      </div>
+
+      <section class="sec reveal">
+        <p class="eyebrow">Khoảnh khắc</p><h2>Những ngày thanh xuân</h2>
+      </section>
+      <div class="polas reveal">
+        {
+          photos.map((p) => (
+            <figure class="pola">
+              <>
+                <img src={p.src} alt={p.alt} loading="lazy" />
+                <figcaption>{p.caption}</figcaption>
+              </>
+            </figure>
+          ))
+        }
+      </div>
+
+      <section class="sec reveal" id="rsvp">
+        <p class="eyebrow">Hẹn gặp bạn</p><h2>Bạn sẽ đến chứ?</h2>
+      </section>
+      <form class="rsvp reveal" id="rsvpForm">
+        <h3><em>Lời chúc</em></h3>
+        <label for="guestName">Tên của bạn</label>
+        <input id="guestName" name="name" placeholder="Nguyễn Văn A" required />
+        <label for="message">Gửi lời chúc</label>
+        <textarea
+          id="message"
+          name="message"
+          rows="3"
+          placeholder="Một lời chúc cho chặng đường mới..."></textarea>
+        <label>Bạn sẽ tham dự chứ?</label>
+        <label class="opt"
+          ><input type="radio" name="attendance" value="yes" required /> Có, mình
+          sẽ đến chung vui!</label
+        >
+        <label class="opt"
+          ><input type="radio" name="attendance" value="no" /> Tiếc quá, mình không
+          đến được</label
+        >
+        <button class="pill" type="submit">Gửi xác nhận ↗</button>
+        <p class="status" id="formStatus" aria-live="polite"></p>
+      </form>
+
+      <footer class="foot">
+        <p class="script">{info.name}</p><small
+          >CLASS OF 2026 · KHÉP LẠI MỘT CHẶNG ĐƯỜNG</small
+        >
+      </footer>
+
+      <MusicPlayer />
+    </main>
+
+    <script>
+      import { gsap } from "gsap";
+      import { ScrollTrigger } from "gsap/ScrollTrigger";
+      import { supabase } from "../lib/supabase";
+      gsap.registerPlugin(ScrollTrigger);
+      const $ = <T extends HTMLElement = HTMLElement>(s: string) =>
+        document.querySelector<T>(s);
+
+      document.body.classList.add("intro-locked");
+      let invitationOpened = false;
+
+      $("#open")?.addEventListener("click", () => {
+        if (invitationOpened) return;
+        invitationOpened = true;
+
+        // Phát nhạc ngay khi khách nhấn mở thiệp (không chặn animation)
+        const bgMusic = $("#bg-music");
+        if (bgMusic instanceof HTMLAudioElement) {
+          bgMusic.volume = 0.4;
+          bgMusic
+            .play()
+            .catch((error) => console.warn("Không thể tự phát nhạc:", error));
+        }
+
+        document.body.classList.remove("intro-locked");
+        gsap
+          .timeline()
+          .to("#open", {
+            scale: 1.25,
+            rotate: -6,
+            duration: 0.5,
+            ease: "back.out(3)",
+          })
+          .to("#open", {
+            scale: 0.3,
+            autoAlpha: 0,
+            duration: 0.5,
+            ease: "power3.in",
+          })
+          .to(".intro-in > :not(#open)", { autoAlpha: 0, duration: 0.4 }, "<")
+          .to(
+            "#intro",
+            {
+              autoAlpha: 0,
+              duration: 1.2,
+              onComplete: () => $("#intro")?.classList.add("is-hidden"),
+            },
+            "-=0.2",
+          );
+        // Hoa ly nền chính "lùi camera" khi thiệp mở
+        gsap.fromTo(
+          ".main-bg",
+          { scale: 1.3 },
+          { scale: 1, duration: 3, delay: 0.4, ease: "power2.out" },
+        );
+        gsap.from(".hero .rise", {
+          y: 30,
+          autoAlpha: 0,
+          stagger: 0.15,
+          duration: 1,
+          delay: 1,
+          ease: "power3.out",
+        });
+        setTimeout(() => ScrollTrigger.refresh(), 1200);
+      });
+
+      gsap.utils.toArray<HTMLElement>(".reveal").forEach((el) =>
+        gsap.fromTo(
+          el,
+          { y: 30, autoAlpha: 0 },
+          {
+            y: 0,
+            autoAlpha: 1,
+            duration: 0.9,
+            ease: "power2.out",
+            scrollTrigger: { trigger: el, start: "top 90%", once: true },
+          },
+        ),
+      );
+
+      // Sao lấp lánh bay lên & cánh hoa rơi
+      const spawn = (
+        box: Element | null,
+        cls: string,
+        n: number,
+        min: number,
+        span: number,
+      ) => {
+        for (let i = 0; i < n; i++) {
+          const p = document.createElement("i");
+          p.className = cls;
+          p.style.cssText = `left:${Math.random() * 100}%;--dx:${Math.random() * 120 - 60}px;animation-duration:${min + Math.random() * span}s;animation-delay:${-Math.random() * (min + span)}s;scale:${0.6 + Math.random()}`;
+          box?.append(p);
+        }
+      };
+      spawn($("#spkIntro"), "spk", 26, 8, 8);
+      spawn($(".petals"), "spk", 18, 10, 10);
+      spawn($(".petals"), "pt", 10, 10, 9);
+
+      // Đếm ngược
+      const target = new Date($("#cd")?.dataset.date || "").getTime();
+      const set = (id: string, v: number) => {
+        const e = $("#" + id);
+        if (e) e.textContent = String(v).padStart(2, "0");
+      };
+      const tick = () => {
+        const d = Math.max(0, target - Date.now());
+        set("days", Math.floor(d / 864e5));
+        set("hours", Math.floor((d % 864e5) / 36e5));
+        set("minutes", Math.floor((d % 36e5) / 6e4));
+        set("seconds", Math.floor((d % 6e4) / 1e3));
+      };
+      tick();
+      setInterval(tick, 1000);
+
+      // RSVP: lưu xác nhận tham dự vào Supabase
+      const rsvpForm = document.querySelector<HTMLFormElement>("#rsvpForm");
+
+      const formStatus = document.querySelector<HTMLElement>("#formStatus");
+
+      rsvpForm?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        if (!rsvpForm || !formStatus) return;
+
+        const submitButton = rsvpForm.querySelector<HTMLButtonElement>(
+          'button[type="submit"]',
+        );
+
+        const formData = new FormData(rsvpForm);
+
+        const name = String(formData.get("name") ?? "").trim();
+        const message = String(formData.get("message") ?? "").trim();
+
+        const attendance = formData.get("attendance");
+
+        if (!name) {
+          formStatus.textContent = "Vui lòng nhập tên của bạn.";
+          return;
+        }
+
+        if (name.length > 100 || message.length > 2000) {
+          formStatus.textContent =
+            "Tên tối đa 100 ký tự, lời chúc tối đa 2000 ký tự.";
+          return;
+        }
+
+        if (attendance !== "yes" && attendance !== "no") {
+          formStatus.textContent = "Vui lòng chọn trạng thái tham dự.";
+          return;
+        }
+
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.textContent = "Đang gửi...";
+        }
+
+        formStatus.textContent = "";
+
+        try {
+          const { error } = await supabase.from("graduation_rsvps").insert({
+            name,
+            message: message || null,
+            attendance,
+          });
+
+          if (error) {
+            console.error("RSVP submission failed:", error);
+            formStatus.textContent =
+              "Gửi chưa thành công. Bạn vui lòng thử lại nhé.";
+            return;
+          }
+
+          formStatus.textContent = "Cảm ơn bạn! Xác nhận đã được ghi nhận ♡";
+
+          rsvpForm.reset();
+        } catch (error) {
+          console.error("Unexpected RSVP error:", error);
+
+          formStatus.textContent =
+            "Không thể kết nối. Bạn vui lòng thử lại nhé.";
+        } finally {
+          if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = "Gửi xác nhận ↗";
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

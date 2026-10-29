@@ -1,0 +1,98 @@
+<div class="music-player" id="music-player">
+  <audio id="bg-music" loop preload="none">
+    <source src="/audio/graduation.mp3" type="audio/mpeg" />
+  </audio>
+
+  <button
+    id="music-toggle"
+    class="music-toggle"
+    type="button"
+    aria-label="Bật nhạc nền"
+    aria-pressed="false"
+  >
+    <span id="music-icon">♫</span>
+    <span id="music-label">Bật nhạc</span>
+  </button>
+</div>
+
+<style>
+  .music-player {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1000;
+  }
+
+  .music-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    border: 1px solid #c9a46a;
+    border-radius: 999px;
+    background: #5b0a16;
+    color: #fff7f0;
+    font: inherit;
+    cursor: pointer;
+    box-shadow: 0 4px 20px #0002;
+  }
+
+  #music-icon {
+    font-size: 24px;
+  }
+
+  .music-toggle.is-playing #music-icon {
+    animation: spin 4s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .music-toggle.is-playing #music-icon {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  const audio = document.querySelector<HTMLAudioElement>("#bg-music");
+  const button = document.querySelector<HTMLButtonElement>("#music-toggle");
+  const icon = document.querySelector<HTMLSpanElement>("#music-icon");
+  const label = document.querySelector<HTMLSpanElement>("#music-label");
+
+  if (audio && button && icon && label) {
+    const updateUI = () => {
+      const playing = !audio.paused;
+      button.classList.toggle("is-playing", playing);
+      button.setAttribute("aria-pressed", String(playing));
+      button.setAttribute(
+        "aria-label",
+        playing ? "Tắt nhạc nền" : "Bật nhạc nền",
+      );
+      icon.textContent = playing ? "♫" : "♪";
+      label.textContent = playing ? "Đang phát" : "Bật nhạc";
+    };
+
+    button.addEventListener("click", async () => {
+      if (audio.paused) {
+        try {
+          await audio.play();
+        } catch {
+          label.textContent = "Không thể phát nhạc";
+        }
+      } else {
+        audio.pause();
+      }
+
+      updateUI();
+    });
+
+    audio.addEventListener("play", updateUI);
+    audio.addEventListener("pause", updateUI);
+    audio.addEventListener("ended", updateUI);
+  }
+</script>

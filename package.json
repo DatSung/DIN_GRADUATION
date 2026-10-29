@@ -1,0 +1,19 @@
+{
+  "name": "dindin-graduation",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.22.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.118.0",
+    "astro": "^7.4.0",
+    "gsap": "^3.13.0"
+  }
+}
